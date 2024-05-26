@@ -1,5 +1,6 @@
 using ArchPractice.Model;
 using ArchPractice.Service;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArchPractice.Controllers
@@ -14,18 +15,24 @@ namespace ArchPractice.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IMapper _mapper;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMapper mapper)
         {
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public async Task<List<UserVo>> Get()
+        public async Task<object> Get()
         {
-            var userService = new UserService();
-            var userList = await userService.Query();
-            return userList;
+            //var userService = new UserService();
+            //var userList = await userService.Query();
+            //return userList;
+
+            var roleService = new BaseService<Role, RoleVo>(_mapper);
+            var roleList = await roleService.Query();
+            return roleList;
         }
     }
 }
