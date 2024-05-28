@@ -1,4 +1,7 @@
 using ArchPractice.Extensions;
+using ArchPractice.IService;
+using ArchPractice.Repository.Base;
+using ArchPractice.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 AutoMapperConfig.RegisterMappings();
 
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 
 var app = builder.Build();
 

@@ -1,3 +1,4 @@
+using ArchPractice.IService;
 using ArchPractice.Model;
 using ArchPractice.Service;
 using AutoMapper;
@@ -15,12 +16,13 @@ namespace ArchPractice.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IMapper _mapper;
+        private readonly IBaseService<Role, RoleVo> _baseService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMapper mapper)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, 
+            IBaseService<Role, RoleVo> baseService)
         {
             _logger = logger;
-            _mapper = mapper;
+            _baseService = baseService;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -30,8 +32,10 @@ namespace ArchPractice.Controllers
             //var userList = await userService.Query();
             //return userList;
 
-            var roleService = new BaseService<Role, RoleVo>(_mapper);
-            var roleList = await roleService.Query();
+            //var roleService = new BaseService<Role, RoleVo>(_mapper);
+            //var roleList = await roleService.Query();
+
+            var roleList = await _baseService.Query();
             return roleList;
         }
     }
