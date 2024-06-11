@@ -1,0 +1,6 @@
+@AdAuthApi_HostAddress = http://localhost:5206
+
+GET {{AdAuthApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
