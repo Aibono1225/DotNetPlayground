@@ -1,12 +1,33 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-    .AddNegotiate();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddNegotiate()
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("S8D0tPR2kYE0IM6Qup3INtCVYdfuZbQC")),
+        ValidateIssuer = true,
+        ValidIssuer = "http://localhost:5000",
+        ValidateAudience = true,
+        ValidAudience = "http://192.168.37.1:18080",
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromMinutes(60)
+    };
+});
 
 builder.Services.AddAuthorization(options =>
 {
@@ -19,7 +40,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:8080")
+        builder.WithOrigins("http://192.168.37.1:18080")
             .AllowCredentials()
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -42,7 +63,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

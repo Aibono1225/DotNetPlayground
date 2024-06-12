@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.DirectoryServices.Protocols;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace AdAuthApi.Controllers
@@ -11,7 +14,6 @@ namespace AdAuthApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly string _ldapServer = "192.168.10.82";
-        private readonly int _ldapPort = 389;
         private readonly string _ldapBaseDn = "CN=Users,DC=abc,DC=xyz";
 
         [HttpGet("windows-auth")]
@@ -20,7 +22,8 @@ namespace AdAuthApi.Controllers
         {
             var userName = User.Identity.Name;
             var userDetails = GetAdUserDetails(userName);
-            return Ok(new { Message = "Authenticated", name = userName, User = userDetails });
+            var token = GenerateJwtToken(userName);
+            return Ok(new { Message = "is Authenticated!", Token = token, name = userName, User = userDetails });
         }
 
         public static string GetAttributeValue(SearchResultEntry entry, string attributeName)
@@ -28,8 +31,6 @@ namespace AdAuthApi.Controllers
             var attributeValues = entry.Attributes[attributeName];
             if (attributeValues.Count > 0)
             {
-                //var value = System.Convert.FromBase64String(attributeVal[0].ToString());
-                //return System.Text.Encoding.UTF8.GetString(value);
                 var attributeValue = attributeValues[0] as byte[];
                 if (attributeValue != null)
                 {
@@ -42,13 +43,11 @@ namespace AdAuthApi.Controllers
 
         private object GetAdUserDetails(string userName)
         {
-            //var ldapConnection = new LdapConnection(new LdapDirectoryIdentifier(_ldapServer, _ldapPort));
             var ldapConnection = new LdapConnection(new LdapDirectoryIdentifier(_ldapServer));
             ldapConnection.AuthType = AuthType.Negotiate;
             ldapConnection.Bind();
 
             var searchFilter = $"(sAMAccountName={userName.Split('\\')[1]})";
-            //var searchFilter = $"(sAMAccountName={userName})";
             var searchRequest = new SearchRequest(_ldapBaseDn, searchFilter, SearchScope.Subtree, null);
             var searchResponse = (SearchResponse)ldapConnection.SendRequest(searchRequest);
 
@@ -66,7 +65,27 @@ namespace AdAuthApi.Controllers
             }
 
             return null;
+        }
 
+        private string GenerateJwtToken(string userName)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes("S8D0tPR2kYE0IM6Qup3INtCVYdfuZbQC");
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, userName)
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                Issuer = "http://localhost:5000",
+                Audience = "http://192.168.37.1:18080",
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
     }
