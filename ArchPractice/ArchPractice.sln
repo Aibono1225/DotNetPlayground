@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPractice", "ArchPractice\ArchPractice.csproj", "{90A852C2-88E3-4CE1-8E77-230D8186325C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchPractice", "ArchPractice\ArchPractice.csproj", "{90A852C2-88E3-4CE1-8E77-230D8186325C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPractice.Common", "ArchPractice.Common\ArchPractice.Common.csproj", "{46EC662D-A7FC-4F45-9472-EA9A8017258D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchPractice.Common", "ArchPractice.Common\ArchPractice.Common.csproj", "{46EC662D-A7FC-4F45-9472-EA9A8017258D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPractice.IService", "ArchPractice.IService\ArchPractice.IService.csproj", "{9D144302-EB34-478A-8B2B-AD72A082DCD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchPractice.IService", "ArchPractice.IService\ArchPractice.IService.csproj", "{9D144302-EB34-478A-8B2B-AD72A082DCD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPractice.Model", "ArchPractice.Model\ArchPractice.Model.csproj", "{3681BD82-36B2-4DA8-855D-E8CD0CBDA54F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchPractice.Model", "ArchPractice.Model\ArchPractice.Model.csproj", "{3681BD82-36B2-4DA8-855D-E8CD0CBDA54F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPractice.Repository", "ArchPractice.Repository\ArchPractice.Repository.csproj", "{21ECBDFA-ED4E-447B-A8A2-6B417102B059}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchPractice.Repository", "ArchPractice.Repository\ArchPractice.Repository.csproj", "{21ECBDFA-ED4E-447B-A8A2-6B417102B059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPractice.Service", "ArchPractice.Service\ArchPractice.Service.csproj", "{CEC51CB2-A577-4765-AA68-C498E3BF2CEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchPractice.Service", "ArchPractice.Service\ArchPractice.Service.csproj", "{CEC51CB2-A577-4765-AA68-C498E3BF2CEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPractice.Extension", "ArchPractice.Extension\ArchPractice.Extension.csproj", "{4B096597-37FF-45EE-B0E3-B4A3138F2803}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{CEC51CB2-A577-4765-AA68-C498E3BF2CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEC51CB2-A577-4765-AA68-C498E3BF2CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEC51CB2-A577-4765-AA68-C498E3BF2CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B096597-37FF-45EE-B0E3-B4A3138F2803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B096597-37FF-45EE-B0E3-B4A3138F2803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B096597-37FF-45EE-B0E3-B4A3138F2803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B096597-37FF-45EE-B0E3-B4A3138F2803}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-using ArchPractice.IService;
+﻿using ArchPractice.IService;
 using ArchPractice.Model;
 using ArchPractice.Service;
 using AutoMapper;
@@ -18,6 +18,9 @@ namespace ArchPractice.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IBaseService<Role, RoleVo> _baseService;
 
+        // 属性注册
+        public IBaseService<Role, RoleVo> _roleServiceObj { get; set; }
+
         public WeatherForecastController(ILogger<WeatherForecastController> logger, 
             IBaseService<Role, RoleVo> baseService)
         {
@@ -35,7 +38,9 @@ namespace ArchPractice.Controllers
             //var roleService = new BaseService<Role, RoleVo>(_mapper);
             //var roleList = await roleService.Query();
 
-            var roleList = await _baseService.Query();
+            //var roleList = await _baseService.Query();
+            var roleList = await _roleServiceObj.Query();
+
             return roleList;
         }
     }
