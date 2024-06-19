@@ -2,6 +2,7 @@
 using ArchPractice.Repository.Base;
 using ArchPractice.Service;
 using Autofac;
+using Autofac.Extras.DynamicProxy;
 using System.Reflection;
 
 namespace ArchPractice.Extension
@@ -15,8 +16,14 @@ namespace ArchPractice.Extension
             var serviceDllFile = Path.Combine(basePath, "ArchPractice.Service.dll");
             var repositoryDllFile = Path.Combine(basePath, "ArchPractice.Repository.dll");
 
+            var aopTypes = new List<Type>() { typeof(ServiceAOP) };
+            builder.RegisterType<ServiceAOP>();
+
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IBaseRepository<>)).InstancePerDependency();
-            builder.RegisterGeneric(typeof(BaseService<,>)).As(typeof(IBaseService<,>)).InstancePerDependency();
+            builder.RegisterGeneric(typeof(BaseService<,>)).As(typeof(IBaseService<,>))
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(aopTypes.ToArray())
+                .InstancePerDependency();
 
             // 获取Service.dll程序集服务，并注册
             var assemblysServices = Assembly.LoadFrom(serviceDllFile);
@@ -30,7 +37,9 @@ namespace ArchPractice.Extension
             builder.RegisterAssemblyTypes(assemblysRepository)
                 .AsImplementedInterfaces()
                 .InstancePerDependency()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(aopTypes.ToArray());
         }
     }
 }
