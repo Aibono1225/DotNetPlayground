@@ -1,3 +1,4 @@
+using ArchPractice.Common;
 using ArchPractice.Extension;
 using ArchPractice.Extensions;
 using Autofac;
@@ -26,6 +27,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 AutoMapperConfig.RegisterMappings();
+
+builder.Services.AddSingleton(new AppSettings(builder.Configuration));
 
 //builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 //builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));

@@ -1,4 +1,5 @@
-﻿using ArchPractice.IService;
+﻿using ArchPractice.Common;
+using ArchPractice.IService;
 using ArchPractice.Model;
 using ArchPractice.Service;
 using AutoMapper;
@@ -39,8 +40,12 @@ namespace ArchPractice.Controllers
             //var roleList = await roleService.Query();
 
             //var roleList = await _baseService.Query();
-            var roleList = await _roleServiceObj.Query();
 
+            var redisEnable = AppSettings.app(new string[] { "Redis", "Enable" });
+            var redisConnectionString = AppSettings.GetValue("Redis:ConnectionString");
+            Console.WriteLine($"Enable: {redisEnable}, ConnectionString: {redisConnectionString}");
+            
+            var roleList = await _roleServiceObj.Query();
             return roleList;
         }
     }
